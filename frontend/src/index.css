@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "futura";
+  src: url("./assets/fonts/futurab.ttf") format("truetype");
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
