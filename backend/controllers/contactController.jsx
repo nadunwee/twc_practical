@@ -15,7 +15,7 @@ const getContacts = async (req, res) => {
 
 // POST a new contact
 const createContact = async (req, res) => {
-  const { name, email, phoneNumber } = req.body;
+  const { name, email, phoneNumber, gender } = req.body;
 
   let emptyFields = [];
 
@@ -28,6 +28,9 @@ const createContact = async (req, res) => {
   if (!phoneNumber) {
     emptyFields.push(phoneNumber);
   }
+  if (!gender) {
+    emptyFields.push(gender);
+  }
 
   if (emptyFields.length > 0) {
     return res
@@ -36,7 +39,7 @@ const createContact = async (req, res) => {
   }
 
   try {
-    const contact = await Contact.create({ name, email, phoneNumber });
+    const contact = await Contact.create({ name, email, phoneNumber, gender });
     res.status(200).json(contact);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -44,7 +47,45 @@ const createContact = async (req, res) => {
 };
 
 // DELTE a contact
+const deleteContact = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res
+      .status(400)
+      .json({ error: "NO such a contact (mongoose ID is invalid)" });
+  }
+
+  const contact = await Contact.findOneAndDelete({ _id: id });
+
+  if (!contact) {
+    return res
+      .status(400)
+      .json({ error: "NO such a contact (contact ID is invalid)" });
+  }
+
+  res.status(200).json(contact);
+};
 
 // UPDATE a contact
+const updateContact = async (req, res) => {
+  const { id } = req.params;
 
-module.exports = { getContacts, createContact };
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res
+      .status(400)
+      .json({ error: "NO such a contact (mongoose ID is invalid)" });
+  }
+
+  const contact = await Contact.findOneAndUpdate({ _id: id }, { ...req.body });
+
+  if (!contact) {
+    return res
+      .status(400)
+      .json({ error: "NO such a contact (contact ID is invalid)" });
+  }
+
+  res.status(200).json(contact);
+};
+
+module.exports = { getContacts, createContact, deleteContact, updateContact };

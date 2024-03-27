@@ -16,6 +16,10 @@ const contactSchema = new Schema(
       type: Number,
       require: true,
     },
+    gender: {
+      type: String,
+      require: true,
+    },
   },
   { timestamps: true }
 );
