@@ -1,8 +1,11 @@
 import { useState } from "react";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
+import { useLogout } from "../Hooks/useLogout.jsx";
 
 function NewContact(props) {
+  const { logout } = useLogout();
+
   const [enteredValues, setEnteredValues] = useState({
     name: "",
     email: "",
@@ -38,6 +41,11 @@ function NewContact(props) {
 
   function handleInputBlur() {
     setDidEdit(true);
+  }
+
+  function handleClick() {
+    console.log("logout");
+    logout();
   }
   return (
     <div className="bg-[url('./assets/background.png')] w-screen h-screen bg-cover bg-center text-white	">
@@ -125,7 +133,7 @@ function NewContact(props) {
           </button>
         </form>
         {/* align in bottm and add the symbol */}
-        <div className="align-top">
+        <div className="align-top" onClick={handleClick}>
           <u>
             <Link className="font-normal text-xl">Logout</Link>
           </u>

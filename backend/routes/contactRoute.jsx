@@ -6,6 +6,7 @@ const {
   deleteContact,
   updateContact,
 } = require("../controllers/contactController.jsx");
+const requireAuth = require("../middleware/requireAuth.jsx");
 
 const router = express.Router();
 
