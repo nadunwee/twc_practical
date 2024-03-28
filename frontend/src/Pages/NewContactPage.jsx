@@ -11,8 +11,9 @@ function NewContentPage() {
     Axios.post("http://localhost:4000/contact/new", newContact)
       .then((response) => {
         if (response.status == 200) {
-          console.log("contacts addred");
-          navigate("/");
+          console.log("contacts added");
+          window.location.reload();
+          navigate("/contacts");
         } else {
           console.log("No Content Added");
         }

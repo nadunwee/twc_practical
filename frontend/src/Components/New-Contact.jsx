@@ -1,9 +1,11 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import { useLogout } from "../Hooks/useLogout.jsx";
+import logoutImg from "../assets/logout.png";
 
-function NewContact(props) {
+function NewContact({ onAddContact }) {
   const { logout } = useLogout();
 
   const [enteredValues, setEnteredValues] = useState({
@@ -20,9 +22,7 @@ function NewContact(props) {
   function submitHandler(event) {
     event.preventDefault();
 
-    if (props.onAddContact) {
-      props.onAddContact(enteredValues);
-    }
+    onAddContact(enteredValues);
 
     setEnteredValues({
       name: "",
@@ -47,6 +47,7 @@ function NewContact(props) {
     console.log("logout");
     logout();
   }
+
   return (
     <div className="bg-[url('./assets/background.png')] w-screen h-screen bg-cover bg-center text-white	">
       <div className="ml-52 pt-16">
@@ -132,8 +133,12 @@ function NewContact(props) {
             add your contact
           </button>
         </form>
-        {/* align in bottm and add the symbol */}
-        <div className="align-top" onClick={handleClick}>
+
+        <div
+          className="fixed bottom-10 right-10 flex items-center ml-[500px] space-x-2"
+          onClick={handleClick}
+        >
+          <img src={logoutImg} alt="delete image" />
           <u>
             <Link className="font-normal text-xl">Logout</Link>
           </u>

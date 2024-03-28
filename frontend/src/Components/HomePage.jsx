@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 function HomePage() {
   return (
@@ -11,9 +12,11 @@ function HomePage() {
           This is where your contacts will live. Click the button <br /> below
           to add a new contact.
         </p>
-        <button className="rounded-full border-2 text-xl font-normal w-72 h-12 mt-20">
-          add your first contact
-        </button>
+        <Link to="/new-contact">
+          <button className="rounded-full border-2 text-xl font-normal w-72 h-12 mt-20">
+            add your first contact
+          </button>
+        </Link>
       </div>
     </div>
   );

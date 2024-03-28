@@ -39,7 +39,14 @@ const createContact = async (req, res) => {
   }
 
   try {
-    const contact = await Contact.create({ name, email, phoneNumber, gender });
+    // const user_id = ;
+    console.log(req.user);
+    const contact = await Contact.create({
+      name,
+      email,
+      phoneNumber,
+      gender,
+    });
     res.status(200).json(contact);
   } catch (error) {
     res.status(400).json({ error: error.message });
