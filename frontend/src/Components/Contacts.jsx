@@ -19,7 +19,7 @@ function Contacts({ data }) {
     const res = await fetch("http://localhost:4000/" + _id, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user.user.token}`,
       },
     });
     const json = await res.json();
