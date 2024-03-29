@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 // GET all contacts
 const getContacts = async (req, res) => {
   try {
-    const contacts = await Contact.find({}).sort({ createdAt: -1 });
+    const user_id = req.user._id;
+    const contacts = await Contact.find({ user_id }).sort({ createdAt: -1 });
     res.status(200).json(contacts);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -39,12 +40,13 @@ const createContact = async (req, res) => {
   }
 
   try {
-    console.log(req.user);
+    const user_id = req.user._id;
     const contact = await Contact.create({
       name,
       email,
       phoneNumber,
       gender,
+      user_id,
     });
     res.status(200).json(contact);
   } catch (error) {
