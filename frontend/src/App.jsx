@@ -12,7 +12,7 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import Contacts from "./Components/Contacts";
+import ContactsPage from "./Pages/ContactsPage";
 
 function App() {
   const { user } = useAuthContext();
@@ -41,7 +41,7 @@ function App() {
           index: true,
           element: user ? (
             contacts.length > 0 ? (
-              <Contacts data={contacts} />
+              <ContactsPage data={contacts} />
             ) : (
               <HomePage />
             )
@@ -62,7 +62,7 @@ function App() {
           path: "/contacts",
           element: user ? (
             contacts.length > 0 ? (
-              <Contacts data={contacts} />
+              <ContactsPage data={contacts} />
             ) : (
               <HomePage />
             )

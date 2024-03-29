@@ -4,6 +4,7 @@ const {
   getContacts,
   createContact,
   deleteContact,
+  updateContact,
 } = require("../controllers/contactController.jsx");
 
 const requireAuth = require("../middleware/requireAuth.jsx");
@@ -25,6 +26,6 @@ router.post("/contact/new", createContact);
 router.delete("/:id", deleteContact);
 
 // UPDATE a contact
-//router.patch("/:id", updateContact);
+router.patch("/:id", updateContact);
 
 module.exports = router;

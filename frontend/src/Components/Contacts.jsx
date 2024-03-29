@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -7,40 +8,47 @@ import malePic from "../assets/male.png";
 import femalePic from "../assets/female.png";
 import { useLogout } from "../Hooks/useLogout";
 import logoutImg from "../assets/logout.png";
-import { useAuthContext } from "../Hooks/useAuthContext";
+import editImg from "../assets/edit.png";
+import { useState } from "react";
 
-function Contacts({ data }) {
+function Contacts({ data, onDeleteBtnClick, onEditBtnClick }) {
   const navigate = useNavigate();
   const { logout } = useLogout();
-  const user = useAuthContext();
+  const [editBtnClicked, setEditBtnClicked] = useState(false);
+  const [editingContactId, setEditingContactId] = useState(null);
+  const [editedContact, setEditedContact] = useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+    gender: "",
+  });
 
   function handleBtnClick() {
     navigate("/new-contact");
   }
 
-  async function HandleDeleteBtnClick(_id, name) {
-    const confirmDelete = window.confirm(
-      `Do you really want to delete ${name}`
-    );
+  function HandleDeleteBtnClick(_id, name) {
+    onDeleteBtnClick(_id, name);
+  }
 
-    if (confirmDelete) {
-      const res = await fetch("http://localhost:4000/" + _id, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${user.user.token}`,
-        },
-      });
-      const json = await res.json();
+  function HandleEditBtnClick(_id, contact) {
+    setEditBtnClicked(true);
+    setEditingContactId(_id);
+    setEditedContact(contact);
+  }
 
-      if (json) {
-        window.location.reload();
-        alert(`${name} has been deleted.`);
-      }
-    }
+  function handleInputChange(identifier, value) {
+    setEditedContact((prevValues) => ({
+      ...prevValues,
+      [identifier]: value,
+    }));
+  }
+
+  function handleSaveBtnClick(_id) {
+    onEditBtnClick(editedContact, _id);
   }
 
   function handleClick() {
-    console.log("logout");
     logout();
   }
 
@@ -59,7 +67,7 @@ function Contacts({ data }) {
         </button>
       </div>
 
-      <div className="ml-52 mr-52 mt-4 rounded-2xl bg-white overflow-auto max-h-[350px] overflow-x-auto">
+      <div className="ml-52 mr-52 mt-4 rounded-2xl bg-white overflow-auto max-h-[350px] overflow-x-auto font-futurab">
         <table className="w-full text-base text-left rtl:text-right text-twc-green">
           <thead className="text-xs text-twc-green uppercase bg-white ">
             <tr>
@@ -79,6 +87,9 @@ function Contacts({ data }) {
                 phone number
               </th>
               <th scope="col" className="px-4 py-3">
+                edit
+              </th>
+              <th scope="col" className="px-4 py-3">
                 delete
               </th>
             </tr>
@@ -93,19 +104,89 @@ function Contacts({ data }) {
                     <img src={malePic} alt="male profile pic" />
                   )}
                 </td>
-                <td className="px-6 py-4">{contact.name}</td>
-                <td className="px-6 py-4">{contact.gender}</td>
-                <td className="px-6 py-4">{contact.email}</td>
-                <td className="px-6 py-4">{contact.phoneNumber}</td>
                 <td className="px-6 py-4">
-                  <button
-                    onClick={() =>
-                      HandleDeleteBtnClick(contact._id, contact.name)
-                    }
-                  >
-                    <img src={deleteImg} alt="delete image" />
-                  </button>
+                  {editBtnClicked && contact._id == editingContactId ? (
+                    <input
+                      type="text"
+                      className="bg-slate-300 text-twc-green  focus:outline-none pl-2 pr-2"
+                      defaultValue={editedContact.name}
+                      onChange={(event) =>
+                        handleInputChange("name", event.target.value)
+                      }
+                    />
+                  ) : (
+                    contact.name
+                  )}
                 </td>
+                <td className="px-6 py-4">
+                  {editBtnClicked && contact._id == editingContactId ? (
+                    <input
+                      type="text"
+                      className="bg-slate-300 text-twc-green  focus:outline-none pl-2 pr-2 max-w-20"
+                      defaultValue={editedContact.gender}
+                      onChange={(event) =>
+                        handleInputChange("gender", event.target.value)
+                      }
+                    />
+                  ) : (
+                    contact.gender
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  {editBtnClicked && contact._id == editingContactId ? (
+                    <input
+                      type="text"
+                      className="bg-slate-300 text-twc-green  focus:outline-none pl-2 pr-2"
+                      defaultValue={editedContact.email}
+                      onChange={(event) =>
+                        handleInputChange("email", event.target.value)
+                      }
+                    />
+                  ) : (
+                    contact.email
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  {editBtnClicked && contact._id == editingContactId ? (
+                    <input
+                      type="text"
+                      className="bg-slate-300 text-twc-green  focus:outline-none pl-2 pr-2 max-w-28"
+                      defaultValue={editedContact.phoneNumber}
+                      onChange={(event) =>
+                        handleInputChange("phoneNumber", event.target.value)
+                      }
+                    />
+                  ) : (
+                    contact.phoneNumber
+                  )}
+                </td>
+                {editBtnClicked && contact._id == editingContactId ? (
+                  <button
+                    onClick={() => handleSaveBtnClick(contact._id)}
+                    className="bg-twc-green text-white p-2 rounded-full w-[72px] h-35[px]  mt-4 font-futurab"
+                  >
+                    save
+                  </button>
+                ) : (
+                  <>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => HandleEditBtnClick(contact._id, contact)}
+                      >
+                        <img src={editImg} alt="Edit image" />
+                      </button>
+                    </td>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() =>
+                          HandleDeleteBtnClick(contact._id, contact.name)
+                        }
+                      >
+                        <img src={deleteImg} alt="delete image" />
+                      </button>
+                    </td>
+                  </>
+                )}
               </tr>
             ))}
           </tbody>

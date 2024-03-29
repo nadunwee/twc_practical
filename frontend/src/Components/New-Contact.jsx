@@ -15,7 +15,6 @@ function NewContact({ onAddContact }) {
     phoneNumber: "",
     gender: "",
   });
-
   const [didEdit, setDidEdit] = useState(false);
 
   const emailIsInvalid = didEdit && !enteredValues.email.includes("@");
@@ -38,7 +37,6 @@ function NewContact({ onAddContact }) {
   }
 
   function handleClick() {
-    console.log("logout");
     logout();
   }
 

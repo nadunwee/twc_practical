@@ -5,8 +5,8 @@ import { useAuthContext } from "../Hooks/useAuthContext";
 
 function NewContentPage() {
   const navigate = useNavigate();
-
   const { user } = useAuthContext();
+
   function addContentHandler(newContact) {
     //send new content data to backend
     fetch("http://localhost:4000/contact/new", {
@@ -26,9 +26,6 @@ function NewContentPage() {
           console.log("No Content Added");
         }
         return response.json();
-      })
-      .then((data) => {
-        console.log(data);
       })
       .catch((error) => {
         console.log(error);
