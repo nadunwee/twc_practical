@@ -23,13 +23,6 @@ function NewContact({ onAddContact }) {
     event.preventDefault();
 
     onAddContact(enteredValues);
-
-    setEnteredValues({
-      name: "",
-      email: "",
-      phoneNumber: "",
-      gender: "",
-    });
   }
 
   function handleInputChange(identifier, value) {

@@ -4,10 +4,12 @@ import deleteImg from "../assets/delete.png";
 import { useLogout } from "../Hooks/useLogout";
 import logoutImg from "../assets/logout.png";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../Hooks/useAuthContext";
 
 function Contacts({ data }) {
   const navigate = useNavigate();
   const { logout } = useLogout();
+  const user = useAuthContext();
 
   function handleBtnClick() {
     navigate("/new-contact");
@@ -16,8 +18,12 @@ function Contacts({ data }) {
   async function HandleDeleteBtnClick(_id) {
     const res = await fetch("http://localhost:4000/" + _id, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
     });
     const json = await res.json();
+
     if (json) {
       window.location.reload();
     }

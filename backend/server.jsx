@@ -19,8 +19,8 @@ app.use((req, res, next) => {
 });
 
 //routes
-app.use("/", contactRouter);
 app.use("/", userRouter);
+app.use("/", contactRouter);
 
 // Connect to DB
 mongoose

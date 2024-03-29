@@ -4,7 +4,6 @@ import Register from "./Components/Authentication/Register";
 import HomePage from "./Components/HomePage";
 import RootPage from "./Components/Root";
 import { useAuthContext } from "./Hooks/useAuthContext";
-import ContactsPage from "./Pages/ContactsPage";
 import NewContentPage from "./Pages/NewContactPage";
 import "./index.css";
 import {
@@ -12,21 +11,25 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
+import Contacts from "./Components/Contacts";
 
 function App() {
   const { user } = useAuthContext();
-  console.log(user);
 
   const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
     const fetchContacts = async () => {
-      const res = await fetch("http://localhost:4000/contacts");
+      const res = await fetch("http://localhost:4000/contacts", {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
       const json = await res.json();
       setContacts(json);
     };
-    fetchContacts();
-  }, []);
+    if (user) {
+      fetchContacts();
+    }
+  }, [user]);
 
   const router = createBrowserRouter([
     {
@@ -37,7 +40,7 @@ function App() {
           index: true,
           element: user ? (
             contacts.length > 0 ? (
-              <ContactsPage data={contacts} />
+              <Contacts data={contacts} />
             ) : (
               <HomePage />
             )
@@ -58,7 +61,7 @@ function App() {
           path: "/contacts",
           element: user ? (
             contacts.length > 0 ? (
-              <ContactsPage data={contacts} />
+              <Contacts data={contacts} />
             ) : (
               <HomePage />
             )

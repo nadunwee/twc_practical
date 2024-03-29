@@ -39,7 +39,6 @@ const createContact = async (req, res) => {
   }
 
   try {
-    // const user_id = ;
     console.log(req.user);
     const contact = await Contact.create({
       name,
