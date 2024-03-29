@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
+
+import logo from "../assets/logo.png";
 import { useLogout } from "../Hooks/useLogout.jsx";
 import logoutImg from "../assets/logout.png";
 

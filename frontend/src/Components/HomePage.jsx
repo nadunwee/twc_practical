@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
+
 function HomePage() {
   return (
     <div className="bg-[url('./assets/background.png')] w-screen h-screen bg-cover bg-center text-white	">
