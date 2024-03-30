@@ -1,8 +1,20 @@
-function Model({ visible, onClose, onBackground }) {
+function DeleteModel({
+  visible,
+  onClose,
+  onBackground,
+  onDeleteName,
+  onDeleteID,
+  onDeleteBtnClick,
+}) {
   if (!visible) return null;
 
   function handleClose(e) {
     if (e.target.id == "container") onBackground();
+  }
+  console.log(onDeleteID);
+  function handleDelete() {
+    onDeleteBtnClick(onDeleteID, onDeleteName); // Pass the necessary arguments
+    onClose();
   }
 
   return (
@@ -13,11 +25,11 @@ function Model({ visible, onClose, onBackground }) {
     >
       <div className="bg-white text-black w-[809px] h-[215px] rounded-3xl p-12 text-center  font-medium">
         <p className="text-twc-green text-[25px]">
-          Do you want to delete the contact
+          Do you want to delete the {onDeleteName}
         </p>
         <button
-          onClick={onClose}
-          className="bg-twc-green text-white p-2 rounded-full w-[80px] mt-4 text-lg "
+          onClick={handleDelete}
+          className="bg-twc-green text-white p-2 rounded-full w-[80px] mt-4 text-lg mr-10 "
         >
           Yes
         </button>
@@ -33,4 +45,4 @@ function Model({ visible, onClose, onBackground }) {
   );
 }
 
-export default Model;
+export default DeleteModel;

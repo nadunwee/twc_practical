@@ -5,19 +5,13 @@ function ContactsPage({ data }) {
   const { user } = useAuthContext();
 
   async function DeleteBtnHandler(_id, name) {
-    const confirmDelete = window.confirm(
-      `Do you want to delete contact "${name}"`
-    );
-
-    if (confirmDelete) {
-      const res = await fetch("http://localhost:4000/" + _id, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      //const json = await res.json();
-    }
+    const res = await fetch("http://localhost:4000/" + _id, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    //const json = await res.json();
   }
 
   async function HandleEditBtnClick(values, _id) {

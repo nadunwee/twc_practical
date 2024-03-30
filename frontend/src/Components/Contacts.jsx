@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -11,6 +10,7 @@ import logoutImg from "../assets/logout.png";
 import editImg from "../assets/edit.png";
 import { useState } from "react";
 import Model from "./Savemodel";
+import DeleteModel from "./DeleteModel";
 
 function Contacts({ data, onDeleteBtnClick, onEditBtnClick }) {
   const navigate = useNavigate();
@@ -25,15 +25,26 @@ function Contacts({ data, onDeleteBtnClick, onEditBtnClick }) {
   });
   const [isVisible, setIsVisible] = useState(false);
   const [modelType, setModelType] = useState("");
+  const [DeleteConfirm, setDeleteConfirm] = useState(false);
+  const [deleteName, setDeleteName] = useState("");
+  const [deleteID, setDeleteID] = useState("");
 
   function handleBtnClick() {
     navigate("/new-contact");
   }
 
   function HandleDeleteBtnClick(_id, name) {
-    onDeleteBtnClick(_id, name);
-    setIsVisible(true);
-    setModelType("deleted");
+    if (DeleteConfirm === true) {
+      setDeleteConfirm(false);
+      setIsVisible(true);
+      setModelType("deleted");
+      onDeleteBtnClick(_id, name);
+      //window.location.reload();
+    } else {
+      setDeleteConfirm(true);
+      setDeleteName(name);
+      setDeleteID(_id);
+    }
   }
 
   function HandleEditBtnClick(_id, contact) {
@@ -66,6 +77,7 @@ function Contacts({ data, onDeleteBtnClick, onEditBtnClick }) {
 
   function handleBackgroundClick() {
     setIsVisible(false);
+    setDeleteConfirm(false);
   }
 
   return (
@@ -223,6 +235,13 @@ function Contacts({ data, onDeleteBtnClick, onEditBtnClick }) {
         onClose={handleOnClose}
         onBackground={handleBackgroundClick}
         type={modelType}
+      />
+      <DeleteModel
+        visible={DeleteConfirm}
+        onBackground={handleBackgroundClick}
+        onDeleteName={deleteName}
+        onDeleteBtnClick={HandleDeleteBtnClick}
+        onDeleteID={deleteID}
       />
     </div>
   );

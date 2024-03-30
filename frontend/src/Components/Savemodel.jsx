@@ -16,7 +16,10 @@ function Model({ visible, onClose, onBackground, type }) {
           Your Contacts has been {type} successfully!
         </p>
         <button
-          onClick={onClose}
+          onClick={() => {
+            onClose(); // Close the Model
+            window.location.reload(); // Refresh the page
+          }}
           className="bg-twc-green text-white p-2 rounded-full w-[80px] mt-4 text-lg "
         >
           Okey
