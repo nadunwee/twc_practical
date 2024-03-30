@@ -10,6 +10,7 @@ import { useLogout } from "../Hooks/useLogout";
 import logoutImg from "../assets/logout.png";
 import editImg from "../assets/edit.png";
 import { useState } from "react";
+import Model from "./Savemodel";
 
 function Contacts({ data, onDeleteBtnClick, onEditBtnClick }) {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ function Contacts({ data, onDeleteBtnClick, onEditBtnClick }) {
     phoneNumber: "",
     gender: "",
   });
+  const [isVisible, setIsVisible] = useState(false);
+  const [modelType, setModelType] = useState("");
 
   function handleBtnClick() {
     navigate("/new-contact");
@@ -29,6 +32,8 @@ function Contacts({ data, onDeleteBtnClick, onEditBtnClick }) {
 
   function HandleDeleteBtnClick(_id, name) {
     onDeleteBtnClick(_id, name);
+    setIsVisible(true);
+    setModelType("deleted");
   }
 
   function HandleEditBtnClick(_id, contact) {
@@ -44,12 +49,23 @@ function Contacts({ data, onDeleteBtnClick, onEditBtnClick }) {
     }));
   }
 
-  function handleSaveBtnClick(_id) {
+  async function handleSaveBtnClick(_id) {
     onEditBtnClick(editedContact, _id);
+    setIsVisible(true);
+    setModelType("saved");
   }
 
   function handleClick() {
     logout();
+  }
+
+  function handleOnClose() {
+    setIsVisible(false);
+    window.location.reload();
+  }
+
+  function handleBackgroundClick() {
+    setIsVisible(false);
   }
 
   return (
@@ -202,6 +218,12 @@ function Contacts({ data, onDeleteBtnClick, onEditBtnClick }) {
           <Link className="font-normal text-xl">Logout</Link>
         </u>
       </div>
+      <Model
+        visible={isVisible}
+        onClose={handleOnClose}
+        onBackground={handleBackgroundClick}
+        type={modelType}
+      />
     </div>
   );
 }

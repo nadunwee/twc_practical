@@ -16,12 +16,7 @@ function ContactsPage({ data }) {
           Authorization: `Bearer ${user.token}`,
         },
       });
-      const json = await res.json();
-
-      if (json) {
-        window.location.reload();
-        alert(`${name} has been deleted successfully!`);
-      }
+      //const json = await res.json();
     }
   }
 
@@ -40,8 +35,6 @@ function ContactsPage({ data }) {
       throw new Error(`HTTP error! status: ${response.status}`);
     } else {
       const json = await response.json();
-      window.location.reload();
-      alert(`${values.name} has been saved successfully!`);
     }
   }
 
