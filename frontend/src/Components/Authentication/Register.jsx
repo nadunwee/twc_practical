@@ -29,7 +29,7 @@ function Register() {
           />{" "}
           <br />
           <input
-            type="text"
+            type="password"
             name="password"
             id="password"
             className="border-2 rounded-full font-semibold pl-4 mt-4 w-80 h-10 text-twc-green tracking-wide"
@@ -39,7 +39,7 @@ function Register() {
           />{" "}
           <br />
           <input
-            type="text"
+            type="password"
             name="confirm-password"
             id="confirm-password"
             className="border-2 rounded-full font-semibold pl-4 mt-4 w-80 h-10 text-twc-green tracking-wide"
@@ -53,7 +53,7 @@ function Register() {
           >
             Register
           </button>
-          {error && <div>{error}</div>}
+          {error && <div className="mt-2 text-yellow-400">{error}</div>}
         </form>
       </div>
       <div className="pl-20 mt-20">

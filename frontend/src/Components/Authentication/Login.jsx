@@ -31,7 +31,7 @@ function Login() {
           />{" "}
           <br />
           <input
-            type="text"
+            type="password"
             name="password"
             id="password"
             className="border-2 rounded-full font-semibold pl-4 mt-4 w-80 h-10 text-twc-green tracking-wide"
@@ -47,7 +47,7 @@ function Login() {
           >
             login
           </button>
-          {error && <div>{error}</div>}
+          {error && <div className="mt-2 text-yellow-400">{error}</div>}
           or{" "}
           <u>
             <Link
